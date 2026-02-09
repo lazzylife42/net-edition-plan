@@ -67,6 +67,92 @@
             width: auto;
         }
 
+        /* Hamburger menu */
+        .hamburger {
+            display: none; /* Caché par défaut sur desktop */
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 28px;
+            height: 3px;
+            background: var(--rouge);
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Mobile menu - caché par défaut sur mobile */
+        nav ul.mobile-menu {
+            display: flex;
+        }
+        
+        /* Desktop menu styles */
+        @media (min-width: 769px) {
+            nav ul.mobile-menu {
+                position: static;
+                width: auto;
+                height: auto;
+                background: transparent;
+                flex-direction: row;
+                padding: 0;
+                box-shadow: none;
+                gap: 2.5rem;
+            }
+            
+            .hamburger {
+                display: none !important; /* Jamais visible sur desktop */
+            }
+        }
+
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex; /* Visible sur mobile */
+            }
+
+            nav ul.mobile-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: var(--blanc);
+                flex-direction: column;
+                padding: 5rem 2rem 2rem;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+                transition: right 0.3s ease;
+                z-index: 1000;
+                gap: 0;
+            }
+
+            nav ul.mobile-menu.active {
+                right: 0;
+            }
+
+            nav ul.mobile-menu li {
+                margin-bottom: 1.5rem;
+            }
+
+            nav ul.mobile-menu a {
+                font-size: 1.1rem;
+            }
+        }
+
         nav ul {
             display: flex;
             list-style: none;
@@ -87,7 +173,7 @@
 
         /* Hero Section avec carousel */
         .hero {
-            margin-top: 80px;
+            margin-top: 70px; /* Réduit pour mieux compenser la navbar */
             position: relative;
             height: 650px;
             overflow: hidden;
@@ -123,7 +209,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(220, 20, 60, 0.85) 0%, rgba(176, 16, 48, 0.75) 100%);
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.65) 0%, rgba(176, 16, 48, 0.55) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -230,11 +316,12 @@
             align-items: center;
             gap: 0.8rem;
             font-size: 1rem;
-            color: var(--gris-moyen);
+            color: var(--blanc);
+            font-weight: 600;
         }
 
         .badge i {
-            color: var(--dore);
+            color: var(--blanc);
             font-size: 1.5rem;
         }
 
@@ -777,6 +864,7 @@
             .about-grid,
             .contact-wrapper {
                 grid-template-columns: 1fr;
+                gap: 3rem;
             }
 
             .cities-carousel,
@@ -792,52 +880,228 @@
             .footer-content {
                 grid-template-columns: 1fr 1fr;
             }
+            
+            section {
+                padding: 4rem 2rem;
+            }
         }
 
         @media (max-width: 768px) {
+            /* Hero */
+            .hero {
+                height: 600px; /* Réduit de 650px */
+                margin-top: 70px;
+            }
+            
             .hero h1 {
-                font-size: 2.2rem;
+                font-size: 1.8rem; /* Réduit de 2.2rem */
+                line-height: 1.2;
+                margin-bottom: 1rem;
             }
 
             .hero p {
-                font-size: 1.1rem;
+                font-size: 1rem; /* Réduit de 1.1rem */
+                margin-bottom: 1.5rem;
+            }
+            
+            .btn {
+                padding: 0.9rem 1.8rem; /* Réduit */
+                font-size: 0.85rem; /* Réduit */
             }
 
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 0.8rem;
+                display: block;
+            }
+            
+            .trust-badges {
+                flex-direction: column;
+                gap: 1rem;
+                margin-top: 2rem;
+            }
+            
+            .badge {
+                font-size: 0.9rem;
+            }
+            
+            .badge i {
+                font-size: 1.2rem;
+            }
+
+            /* Typography */
             h2 {
                 font-size: 2rem;
             }
-
-            nav ul {
-                display: none;
+            
+            .section-subtitle {
+                font-size: 1.05rem;
             }
 
+            /* Navigation */
+            nav .container {
+                padding: 0 1.5rem;
+            }
+            
+            nav .logo img {
+                height: 40px;
+            }
+
+            /* Forms */
             .form-row {
                 grid-template-columns: 1fr;
             }
+            
+            .form-container,
+            .contact-info {
+                padding: 2rem;
+            }
 
+            /* Grids */
             section {
-                padding: 4rem 1.5rem;
+                padding: 3rem 1.5rem;
             }
 
             .stats-grid,
             .process-grid,
             .footer-content {
                 grid-template-columns: 1fr;
+                gap: 2rem;
             }
 
             .process-step::after {
                 display: none;
             }
-
-            .btn-secondary {
-                margin-left: 0;
-                margin-top: 1rem;
+            
+            /* Stats */
+            .stat-item h3 {
+                font-size: 2.5rem;
+            }
+            
+            .stat-item p {
+                font-size: 1rem;
+            }
+            
+            /* City cards */
+            .city-image {
+                height: 250px;
+            }
+            
+            /* About */
+            .about-image img {
+                height: 350px;
+            }
+            
+            /* Process */
+            .process-number {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .process-step h3 {
+                font-size: 1.1rem;
+            }
+            
+            .process-step p {
+                font-size: 0.9rem;
+            }
+            
+            /* Testimonials */
+            .testimonial-card {
+                padding: 2rem;
+            }
+            
+            .testimonial-text {
+                font-size: 0.95rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            /* Hero extra small */
+            .hero {
+                height: 550px; /* Encore plus petit */
+                margin-top: 65px;
+            }
+            
+            .hero h1 {
+                font-size: 1.5rem; /* Encore plus petit */
+                margin-bottom: 0.8rem;
+            }
+            
+            .hero p {
+                font-size: 0.95rem;
+                margin-bottom: 1.2rem;
+            }
+            
+            .hero-content {
+                padding: 0 1rem;
+            }
+            
+            .btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.8rem;
+            }
+            
+            .trust-badges {
+                gap: 0.8rem;
+                margin-top: 1.5rem;
+            }
+            
+            .badge {
+                font-size: 0.85rem;
+            }
+            
+            .badge i {
+                font-size: 1.1rem;
+            }
+            
+            /* Smaller text */
+            h2 {
+                font-size: 1.6rem;
+            }
+            
+            .section-subtitle {
+                font-size: 0.95rem;
+            }
+            
+            /* Compact spacing */
+            section {
+                padding: 2.5rem 1rem;
+            }
+            
+            nav .container {
+                padding: 0 1rem;
+            }
+            
+            /* Stats */
+            .stat-item {
+                padding: 1rem;
+            }
+            
+            .stat-item h3 {
+                font-size: 2rem;
+            }
+            
+            /* Footer */
+            .footer-content {
+                gap: 2.5rem;
+            }
+            
+            .footer-section h3 {
+                font-size: 1.1rem;
+            }
+            
+            /* Mobile menu plus large sur petit écran */
+            nav ul.mobile-menu {
+                width: 80%;
             }
         }
 
         /* Smooth scroll */
         html {
             scroll-behavior: smooth;
+            scroll-padding-top: 100px; /* Offset pour la navbar fixe */
         }
 
         /* Animations */
@@ -876,7 +1140,14 @@
             <div class="logo">
                 <img src="logo.svg" alt="Net Édition Plan">
             </div>
-            <ul>
+            
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="mobile-menu">
                 <li><a href="#accueil">Accueil</a></li>
                 <li><a href="#about">À propos</a></li>
                 <li><a href="#process">Comment ça marche</a></li>
@@ -1351,6 +1622,31 @@
     </footer>
 
     <script>
+        // Menu hamburger
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+        
+        // Fermer le menu quand on clique sur un lien
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+        
+        // Fermer le menu si on clique en dehors
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('nav')) {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            }
+        });
+
         // Carousel hero
         let currentSlide = 0;
         const slides = document.querySelectorAll('.hero-slide');
