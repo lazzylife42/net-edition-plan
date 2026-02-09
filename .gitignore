@@ -1,0 +1,18 @@
+# PDF du formulaire
+*.pdf
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporaires
+*.tmp
+*~
