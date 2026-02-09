@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Net Édition Plan - Plans Publicitaires Urbains en Suisse</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --rouge: #DC143C;
+            --rouge-fonce: #B01030;
+            --dore: #D4AF37;
+            --dore-fonce: #B8941F;
+            --blanc: #FFFFFF;
+            --gris-clair: #F8F9FA;
+            --gris: #2C3E50;
+            --gris-moyen: #7F8C8D;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--gris);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+            z-index: 1000;
+            padding: 1.2rem 0;
+            transition: all 0.3s;
+        }
+
+        nav.scrolled {
+            padding: 0.8rem 0;
+            box-shadow: 0 2px 30px rgba(0,0,0,0.1);
+        }
+
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        nav .logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--gris);
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            color: var(--rouge);
+        }
+
+        /* Hero Section avec carousel */
+        .hero {
+            margin-top: 80px;
+            position: relative;
+            height: 650px;
+            overflow: hidden;
+        }
+
+        .hero-slider {
+            position: relative;
+            height: 100%;
+        }
+
+        .hero-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.85) 0%, rgba(176, 16, 48, 0.75) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-content {
+            text-align: center;
+            color: var(--blanc);
+            max-width: 900px;
+            padding: 0 2rem;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: var(--dore);
+            color: var(--gris);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            background: var(--dore-fonce);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--blanc);
+            color: var(--blanc);
+            margin-left: 1rem;
+        }
+
+        .btn-secondary:hover {
+            background: var(--blanc);
+            color: var(--rouge);
+        }
+
+        /* Section générale */
+        section {
+            padding: 6rem 3rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1.2rem;
+            color: var(--rouge);
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.25rem;
+            color: var(--gris-moyen);
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        /* Trust badges */
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1rem;
+            color: var(--gris-moyen);
+        }
+
+        .badge i {
+            color: var(--dore);
+            font-size: 1.5rem;
+        }
+
+        /* Section à propos avec image */
+        .about-section {
+            background: var(--blanc);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .about-image {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+        }
+
+        .about-content h2 {
+            text-align: left;
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            margin-bottom: 1.5rem;
+            color: var(--gris-moyen);
+        }
+
+        /* Comment ça marche */
+        .process {
+            background: var(--gris-clair);
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+        }
+
+        .process-step::after {
+            content: '→';
+            position: absolute;
+            top: 40px;
+            right: -30px;
+            font-size: 2rem;
+            color: var(--dore);
+        }
+
+        .process-step:last-child::after {
+            display: none;
+        }
+
+        .process-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--rouge), var(--rouge-fonce));
+            color: var(--blanc);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .process-step h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: var(--gris);
+        }
+
+        .process-step p {
+            color: var(--gris-moyen);
+            font-size: 0.95rem;
+        }
+
+        /* Villes avec carousel */
+        .cities {
+            background: var(--blanc);
+        }
+
+        .cities-carousel {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .city-card {
+            background: var(--blanc);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.4s;
+            position: relative;
+        }
+
+        .city-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(220, 20, 60, 0.15);
+        }
+
+        .city-image {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .city-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+
+        .city-card:hover .city-image img {
+            transform: scale(1.1);
+        }
+
+        .city-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 2rem;
+            color: var(--blanc);
+        }
+
+        .city-overlay h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .city-info {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .city-info p {
+            color: var(--gris-moyen);
+            line-height: 1.8;
+        }
+
+        /* Stats améliorées */
+        .stats {
+            background: linear-gradient(135deg, var(--rouge) 0%, var(--rouge-fonce) 100%);
+            color: var(--blanc);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            padding: 2rem;
+        }
+
+        .stat-item i {
+            font-size: 3rem;
+            color: var(--dore);
+            margin-bottom: 1rem;
+        }
+
+        .stat-item h3 {
+            font-size: 3.5rem;
+            color: var(--dore);
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+
+        .stat-item p {
+            font-size: 1.15rem;
+            opacity: 0.95;
+        }
+
+        /* Témoignages */
+        .testimonials {
+            background: var(--gris-clair);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .testimonial-card {
+            background: var(--blanc);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            position: relative;
+        }
+
+        .quote-icon {
+            font-size: 3rem;
+            color: var(--dore);
+            opacity: 0.2;
+            position: absolute;
+            top: 1.5rem;
+            left: 2rem;
+        }
+
+        .testimonial-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--gris-moyen);
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gris-clair);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--rouge);
+            font-weight: 700;
+        }
+
+        .author-info h4 {
+            font-size: 1.1rem;
+            color: var(--gris);
+            margin-bottom: 0.2rem;
+        }
+
+        .author-info p {
+            font-size: 0.9rem;
+            color: var(--gris-moyen);
+        }
+
+        /* FAQ */
+        .faq {
+            background: var(--blanc);
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 4rem auto 0;
+        }
+
+        .faq-item {
+            background: var(--gris-clair);
+            margin-bottom: 1.5rem;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .faq-question {
+            padding: 2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--gris);
+            transition: all 0.3s;
+        }
+
+        .faq-question:hover {
+            color: var(--rouge);
+        }
+
+        .faq-question i {
+            transition: transform 0.3s;
+            color: var(--rouge);
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        .faq-answer-content {
+            padding: 0 2rem 2rem;
+            color: var(--gris-moyen);
+            line-height: 1.8;
+        }
+
+        /* Formulaire amélioré */
+        .contact {
+            background: var(--gris-clair);
+        }
+
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 5rem;
+            align-items: start;
+        }
+
+        .contact-info {
+            background: var(--blanc);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+        }
+
+        .contact-info h3 {
+            color: var(--rouge);
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: start;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-item i {
+            color: var(--dore);
+            font-size: 1.5rem;
+            margin-top: 0.3rem;
+        }
+
+        .contact-item-text h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--gris);
+        }
+
+        .contact-item-text p {
+            color: var(--gris-moyen);
+            line-height: 1.6;
+        }
+
+        .form-container {
+            background: var(--blanc);
+            padding: 3.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: var(--gris);
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1.2rem;
+            border: 2px solid #E8E8E8;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s;
+            background: var(--blanc);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--rouge);
+            box-shadow: 0 0 0 4px rgba(220, 20, 60, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 140px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1.4rem;
+            background: var(--rouge);
+            color: var(--blanc);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-submit:hover {
+            background: var(--rouge-fonce);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(220, 20, 60, 0.4);
+        }
+
+        /* Footer complet */
+        footer {
+            background: var(--gris);
+            color: var(--blanc);
+            padding: 4rem 3rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            color: var(--dore);
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-section p {
+            color: rgba(255,255,255,0.7);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--dore);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc);
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--dore);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .about-grid,
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .cities-carousel,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid,
+            .process-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 4rem 1.5rem;
+            }
+
+            .stats-grid,
+            .process-grid,
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .process-step::after {
+                display: none;
+            }
+
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="container">
+            <div class="logo">
+                <img src="logo.svg" alt="Net Édition Plan">
+            </div>
+            <ul>
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#about">À propos</a></li>
+                <li><a href="#process">Comment ça marche</a></li>
+                <li><a href="#villes">Villes</a></li>
+                <li><a href="#temoignages">Témoignages</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero avec carousel -->
+    <section id="accueil" class="hero">
+        <div class="hero-slider">
+            <div class="hero-slide active">
+                <img src="geneva.jpg" alt="Geneva - Jet d'eau">
+            </div>
+            <div class="hero-slide">
+                <img src="zurich.jpg" alt="Zurich cityscape">
+            </div>
+            <div class="hero-slide">
+                <img src="lausanne.jpg" alt="Lausanne city view">
+            </div>
+        </div>
+        <div class="hero-overlay">
+            <div class="hero-content fade-in-up">
+                <h1>Votre Visibilité au Cœur des Villes Suisses</h1>
+                <p>Des plans publicitaires urbains stratégiques pour Genève, Zurich et Lausanne</p>
+                <a href="#contact" class="btn">Réserver un Espace</a>
+                <a href="#process" class="btn btn-secondary">En Savoir Plus</a>
+                
+                <div class="trust-badges">
+                    <div class="badge">
+                        <i class="fas fa-shield-check"></i>
+                        <span>Qualité Suisse</span>
+                    </div>
+                    <div class="badge">
+                        <i class="fas fa-users"></i>
+                        <span>150+ Partenaires</span>
+                    </div>
+                    <div class="badge">
+                        <i class="fas fa-star"></i>
+                        <span>Distribution Premium</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- À propos -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-grid reveal">
+                <div class="about-image">
+                    <img src="geneva.jpg" alt="City map planning">
+                </div>
+                <div class="about-content">
+                    <h2>Qui Sommes-Nous ?</h2>
+                    <p>
+                        <strong>Net Édition Plan</strong> est le leader romand de l'édition de plans publicitaires urbains. 
+                        Depuis notre création, nous avons accompagné des centaines d'annonceurs dans leur stratégie de visibilité locale.
+                    </p>
+                    <p>
+                        Nos plans sont bien plus que de simples supports publicitaires : ils sont des outils pratiques pour les habitants, 
+                        touristes et professionnels qui découvrent ou redécouvrent Genève, Zurich et Lausanne.
+                    </p>
+                    <p>
+                        Distribués dans les lieux à forte affluence, nos éditions garantissent une exposition maximale à votre marque 
+                        tout en offrant une réelle valeur ajoutée aux utilisateurs.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comment ça marche -->
+    <section id="process" class="process">
+        <div class="container">
+            <h2>Comment Ça Marche ?</h2>
+            <p class="section-subtitle">Un processus simple et efficace pour maximiser votre visibilité urbaine</p>
+            
+            <div class="process-grid reveal">
+                <div class="process-step">
+                    <div class="process-number">1</div>
+                    <h3>Contact</h3>
+                    <p>Remplissez notre formulaire ou contactez-nous directement pour discuter de vos besoins</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="process-number">2</div>
+                    <h3>Analyse</h3>
+                    <p>Nous analysons votre cible et vous proposons les emplacements stratégiques optimaux</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="process-number">3</div>
+                    <h3>Création</h3>
+                    <p>Nous intégrons votre publicité dans notre prochain tirage de plans de ville</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="process-number">4</div>
+                    <h3>Distribution</h3>
+                    <p>Vos annonces touchent 25'000 à 50'000 personnes par édition dans les lieux clés</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Villes avec images -->
+    <section id="villes" class="cities">
+        <div class="container">
+            <h2>Nos Villes</h2>
+            <p class="section-subtitle">Une couverture premium des principales métropoles suisses</p>
+            
+            <div class="cities-carousel reveal">
+                <div class="city-card">
+                    <div class="city-image">
+                        <img src="geneva.jpg" alt="Geneva">
+                        <div class="city-overlay">
+                            <h3>Genève</h3>
+                            <p>Ville internationale</p>
+                        </div>
+                    </div>
+                    <div class="city-info">
+                        <p>Hub européen et cosmopolite, Genève accueille des millions de visiteurs chaque année. Un marché premium pour votre publicité.</p>
+                    </div>
+                </div>
+                
+                <div class="city-card">
+                    <div class="city-image">
+                        <img src="zurich.jpg" alt="Zurich">
+                        <div class="city-overlay">
+                            <h3>Zurich</h3>
+                            <p>Capitale économique</p>
+                        </div>
+                    </div>
+                    <div class="city-info">
+                        <p>Centre financier et culturel de la Suisse, Zurich offre un environnement idéal pour toucher une clientèle haut de gamme.</p>
+                    </div>
+                </div>
+                
+                <div class="city-card">
+                    <div class="city-image">
+                        <img src="lausanne.jpg" alt="Lausanne">
+                        <div class="city-overlay">
+                            <h3>Lausanne</h3>
+                            <p>Capitale olympique</p>
+                        </div>
+                    </div>
+                    <div class="city-info">
+                        <p>Pôle universitaire et touristique dynamique, Lausanne combine tradition et innovation pour votre communication locale.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="container">
+            <h2 style="color: var(--blanc);">Notre Impact en Chiffres</h2>
+            <p class="section-subtitle" style="color: rgba(255,255,255,0.9);">Des résultats concrets pour votre visibilité</p>
+            
+            <div class="stats-grid reveal">
+                <div class="stat-item">
+                    <i class="fas fa-print"></i>
+                    <h3>37K</h3>
+                    <p>Exemplaires moyens par édition</p>
+                </div>
+                
+                <div class="stat-item">
+                    <i class="fas fa-bullhorn"></i>
+                    <h3>~30</h3>
+                    <p>Annonceurs premium par plan</p>
+                </div>
+                
+                <div class="stat-item">
+                    <i class="fas fa-city"></i>
+                    <h3>3</h3>
+                    <p>Villes stratégiques couvertes</p>
+                </div>
+                
+                <div class="stat-item">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <h3>150+</h3>
+                    <p>Points de distribution</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Témoignages -->
+    <section id="temoignages" class="testimonials">
+        <div class="container">
+            <h2>Ce Que Disent Nos Partenaires</h2>
+            <p class="section-subtitle">La confiance de marques leaders qui ont choisi notre solution</p>
+            
+            <div class="testimonials-grid reveal">
+                <div class="testimonial-card">
+                    <div class="quote-icon">"</div>
+                    <p class="testimonial-text">
+                        "Net Édition Plan nous a permis de toucher efficacement notre clientèle locale. Le taux de reconnaissance de notre marque 
+                        a augmenté de 40% dans les quartiers ciblés. Un investissement rentable !"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MC</div>
+                        <div class="author-info">
+                            <h4>Marie Clavet</h4>
+                            <p>Directrice Marketing, Boutique Luxe SA</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="quote-icon">"</div>
+                    <p class="testimonial-text">
+                        "Une solution publicitaire locale qui fonctionne vraiment. Nos restaurants ont vu une hausse significative de nouveaux 
+                        clients mentionnant avoir découvert notre adresse via ces plans de ville."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">PD</div>
+                        <div class="author-info">
+                            <h4>Pierre Dubois</h4>
+                            <p>Gérant, Groupe Resto Genève</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="quote-icon">"</div>
+                    <p class="testimonial-text">
+                        "L'équipe de Net Édition Plan est professionnelle et à l'écoute. Ils ont su nous conseiller sur les meilleurs emplacements 
+                        pour notre campagne. Les résultats sont au rendez-vous !"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SK</div>
+                        <div class="author-info">
+                            <h4>Sophie Keller</h4>
+                            <p>Responsable Com, Hôtel Métropole</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="container">
+            <h2>Questions Fréquentes</h2>
+            <p class="section-subtitle">Tout ce que vous devez savoir sur nos solutions publicitaires</p>
+            
+            <div class="faq-container reveal">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Quel est le tirage moyen de vos plans ?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Nous tirons entre 25'000 et 50'000 exemplaires par édition selon la ville et la période de l'année. 
+                            Chaque plan garantit une visibilité maximale dans les zones à forte affluence.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Où sont distribués les plans ?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Nos plans sont distribués dans plus de 150 points stratégiques : hôtels, offices de tourisme, gares, 
+                            restaurants, centres commerciaux et lieux culturels des trois villes couvertes.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Combien coûte un espace publicitaire ?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Les tarifs varient selon l'emplacement, la taille et la durée de votre campagne. Contactez-nous pour 
+                            recevoir un devis personnalisé adapté à vos objectifs et votre budget.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>À quelle fréquence publiez-vous de nouvelles éditions ?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Nous publions généralement 2 à 3 éditions par an et par ville, avec des mises à jour régulières 
+                            pour maintenir la pertinence des informations et maximiser l'impact de votre publicité.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Puis-je cibler une zone géographique spécifique ?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Absolument ! Nous travaillons avec vous pour identifier les quartiers et zones de distribution 
+                            qui correspondent le mieux à votre clientèle cible et vos objectifs marketing.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Réservez Votre Espace Publicitaire</h2>
+            <p class="section-subtitle">Contactez-nous dès maintenant pour discuter de votre projet et recevoir un devis personnalisé</p>
+            
+            <div class="contact-wrapper reveal">
+                <div class="contact-info">
+                    <h3>Informations de Contact</h3>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="contact-item-text">
+                            <h4>Nos Bureaux</h4>
+                            <p>Genève • Zurich • Lausanne<br>Suisse</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div class="contact-item-text">
+                            <h4>Téléphone</h4>
+                            <p>+41 XX XXX XX XX</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="contact-item-text">
+                            <h4>Email</h4>
+                            <p>contact@neteditionplan.ch</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div class="contact-item-text">
+                            <h4>Horaires</h4>
+                            <p>Lun - Ven: 09:00 - 18:00<br>Sam - Dim: Fermé</p>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                
+                <div class="form-container">
+                    <form id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nom">Nom *</label>
+                                <input type="text" id="nom" name="nom" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="prenom">Prénom *</label>
+                                <input type="text" id="prenom" name="prenom" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="entreprise">Entreprise *</label>
+                                <input type="text" id="entreprise" name="entreprise" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="ville">Ville d'intérêt *</label>
+                                <select id="ville" name="ville" required>
+                                    <option value="">Sélectionnez une ville</option>
+                                    <option value="geneve">Genève</option>
+                                    <option value="zurich">Zurich</option>
+                                    <option value="lausanne">Lausanne</option>
+                                    <option value="toutes">Toutes les villes</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Décrivez votre projet</label>
+                            <textarea id="message" name="message" placeholder="Parlez-nous de vos objectifs publicitaires, budget estimé, période souhaitée..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-submit">Envoyer la Demande</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Net Édition Plan</h3>
+                <p>
+                    Votre partenaire de confiance pour la publicité urbaine en Suisse. 
+                    Nous créons des opportunités de visibilité locale exceptionnelles.
+                </p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Liens Rapides</h3>
+                <ul class="footer-links">
+                    <li><a href="#accueil">Accueil</a></li>
+                    <li><a href="#about">À propos</a></li>
+                    <li><a href="#process">Comment ça marche</a></li>
+                    <li><a href="#villes">Nos villes</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Services</h3>
+                <ul class="footer-links">
+                    <li><a href="#villes">Plans Genève</a></li>
+                    <li><a href="#villes">Plans Zurich</a></li>
+                    <li><a href="#villes">Plans Lausanne</a></li>
+                    <li><a href="#contact">Devis gratuit</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul class="footer-links">
+                    <li>+41 XX XXX XX XX</li>
+                    <li>contact@neteditionplan.ch</li>
+                    <li>Genève, Suisse</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 Net Édition Plan. Tous droits réservés. | <a href="#" style="color: rgba(255,255,255,0.5);">Mentions légales</a> | <a href="#" style="color: rgba(255,255,255,0.5);">Politique de confidentialité</a></p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Design & Development by <a href="#" style="color: var(--dore); text-decoration: none;">Sabino Monte</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Carousel hero
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+        
+        setInterval(nextSlide, 5000);
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // FAQ toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const faqItem = this.parentElement;
+                faqItem.classList.toggle('active');
+            });
+        });
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                nom: document.getElementById('nom').value,
+                prenom: document.getElementById('prenom').value,
+                entreprise: document.getElementById('entreprise').value,
+                ville: document.getElementById('ville').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value
+            };
+            
+            console.log('Données du formulaire:', formData);
+            alert('✅ Merci pour votre demande ! Notre équipe vous contactera dans les 24 heures.');
+            this.reset();
+        });
+
+        // Scroll reveal animation
+        const reveals = document.querySelectorAll('.reveal');
+        
+        function checkReveal() {
+            reveals.forEach(reveal => {
+                const windowHeight = window.innerHeight;
+                const revealTop = reveal.getBoundingClientRect().top;
+                const revealPoint = 100;
+                
+                if (revealTop < windowHeight - revealPoint) {
+                    reveal.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', checkReveal);
+        checkReveal();
+    </script>
+</body>
+</html>
